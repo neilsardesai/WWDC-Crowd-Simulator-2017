@@ -2,4 +2,4 @@
 A SpriteKit and Swift Playgrounds Experiment
 
 ![Screenshot](Screenshot.png)
-![iPad Screenshot](iPad Screenshot.png)
+![iPad Screenshot](iPadScreenshot.png)
