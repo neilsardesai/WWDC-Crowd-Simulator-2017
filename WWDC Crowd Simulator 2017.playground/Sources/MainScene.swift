@@ -53,7 +53,8 @@ public class MainScene: SKScene {
         person.position = CGPoint(x: point.x, y: point.y)
         
         let maxRadius = max(person.frame.size.width/2, person.frame.size.height/2)
-        person.physicsBody = SKPhysicsBody(circleOfRadius: maxRadius)
+        let interPersonSeparationConstant: CGFloat = 1.25
+        person.physicsBody = SKPhysicsBody(circleOfRadius: maxRadius*interPersonSeparationConstant)
         
         addChild(person)
     }
