@@ -22,7 +22,7 @@ public class MainScene: SKScene {
         
         let logo = SKSpriteNode(imageNamed: "Logo")
         logo.name = "logo"
-        logo.setScale(0.25)
+        logo.setScale(0.375)
         logo.position = CGPoint(x: frame.midX, y: frame.midY)
         logo.physicsBody = SKPhysicsBody(rectangleOf: logo.size)
         addChild(logo)
@@ -83,7 +83,7 @@ public class MainScene: SKScene {
         
         let person = SKSpriteNode(texture: personTextures[randomTextureIndex])
         person.name = "person"
-        person.setScale(0.25)
+        person.setScale(0.375)
         person.position = CGPoint(x: point.x, y: point.y)
         
         let maxRadius = max(person.frame.size.width/2, person.frame.size.height/2)
