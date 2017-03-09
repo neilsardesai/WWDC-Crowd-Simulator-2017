@@ -3,22 +3,18 @@ import GameKit
 
 public class MainScene: SKScene {
     
-    var hasContentCreated = false
     var personTextures = [SKTexture]()
     
     override public func didMove(to view: SKView) {
         super.didMove(to: view)
-        if !hasContentCreated {
-            setUpScene()
-            hasContentCreated = true
-        }
+        setUpScene()
     }
     
     func setUpScene() {
         // Set up inital view
         backgroundColor = SKColor(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
         scaleMode = .aspectFill
-        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        physicsWorld.gravity = CGVector.zero
         
         let logo = SKSpriteNode(imageNamed: "Logo")
         logo.setScale(0.25)
