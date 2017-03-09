@@ -13,14 +13,20 @@ public class MainScene: SKScene {
     func setUpScene() {
         // Set up inital view
         backgroundColor = SKColor(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
-        scaleMode = .aspectFill
+        scaleMode = .resizeFill
         physicsWorld.gravity = CGVector.zero
         
         let logo = SKSpriteNode(imageNamed: "Logo")
+        logo.name = "logo"
         logo.setScale(0.25)
         logo.position = CGPoint(x: frame.midX, y: frame.midY)
         logo.physicsBody = SKPhysicsBody(rectangleOf: logo.size)
         addChild(logo)
+        
+        let button = ButtonNode()
+        button.name = "button"
+        button.position = CGPoint(x: frame.width - 50, y: 50)
+        addChild(button)
         
         // Set up person textures
         for i in 0...262 {
@@ -64,6 +70,14 @@ public class MainScene: SKScene {
                 node.removeFromParent()
             }
         }
+    }
+    
+    public override func didChangeSize(_ oldSize: CGSize) {
+        // It's like Auto Layout without Auto Layout
+        
+        guard let logo = childNode(withName: "logo"), let button = childNode(withName: "button") else { return }
+        logo.position = CGPoint(x: frame.midX, y: frame.midY)
+        button.position = CGPoint(x: frame.width - 50, y: 50)
     }
     
 }
