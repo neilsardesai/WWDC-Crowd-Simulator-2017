@@ -17,7 +17,7 @@ public class MainScene: SKScene {
     func setUpScene() {
         // Set up inital view
         backgroundColor = SKColor(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
-        scaleMode = .aspectFit
+        scaleMode = .aspectFill
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         let logo = SKSpriteNode(imageNamed: "Logo")
@@ -52,7 +52,8 @@ public class MainScene: SKScene {
         person.setScale(0.25)
         person.position = CGPoint(x: point.x, y: point.y)
         
-        person.physicsBody = SKPhysicsBody(rectangleOf: person.size)
+        let maxRadius = max(person.frame.size.width/2, person.frame.size.height/2)
+        person.physicsBody = SKPhysicsBody(circleOfRadius: maxRadius)
         
         addChild(person)
     }
