@@ -3,7 +3,11 @@ import GameKit
 
 public class MainScene: SKScene {
     
+    // MARK: Properties
+    
     var personTextures = [SKTexture]()
+    
+    // MARK: Lifecycle
     
     override public func didMove(to view: SKView) {
         super.didMove(to: view)
@@ -26,6 +30,7 @@ public class MainScene: SKScene {
         let button = ButtonNode()
         button.name = "button"
         button.position = CGPoint(x: frame.width - 50, y: 50)
+        button.delegate = self
         addChild(button)
         
         // Set up person textures
@@ -33,6 +38,33 @@ public class MainScene: SKScene {
             personTextures.append(SKTexture(imageNamed: "Person\(i).png"))
         }
     }
+    
+    override public func didSimulatePhysics() {
+        super.didSimulatePhysics()
+        
+        // Remove nodes if they're outside the view
+        enumerateChildNodes(withName: "person") { (node, stop) in
+            if node.position.y < -50 || node.position.y > self.frame.size.height + 50 || node.position.x < -50 || node.position.x > self.frame.size.width + 50 {
+                node.removeFromParent()
+            }
+        }
+    }
+    
+    public override func didChangeSize(_ oldSize: CGSize) {
+        // It's like Auto Layout without Auto Layout
+        resetLogoPosition()
+        guard let button = childNode(withName: "button") else { return }
+        button.position = CGPoint(x: frame.width - 50, y: 50)
+    }
+    
+    func resetLogoPosition() {
+        guard let logo = childNode(withName: "logo") else { return }
+        logo.position = CGPoint(x: frame.midX, y: frame.midY)
+        let rotationAction = SKAction.rotate(toAngle: 0, duration: 0)
+        logo.run(rotationAction)
+    }
+    
+    // MARK: Touch Handling
     
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -61,23 +93,18 @@ public class MainScene: SKScene {
         addChild(person)
     }
     
-    override public func didSimulatePhysics() {
-        super.didSimulatePhysics()
-        
-        // Remove nodes if they're outside the view
+}
+
+// MARK: ButtonNodeDelegate
+
+extension MainScene: ButtonNodeDelegate {
+    
+    func didTapReset(sender: ButtonNode) {
+        // Remove all person nodes
         enumerateChildNodes(withName: "person") { (node, stop) in
-            if node.position.y < -50 || node.position.y > self.frame.size.height + 50 || node.position.x < -50 || node.position.x > self.frame.size.width + 50 {
-                node.removeFromParent()
-            }
+            node.removeFromParent()
         }
-    }
-    
-    public override func didChangeSize(_ oldSize: CGSize) {
-        // It's like Auto Layout without Auto Layout
         
-        guard let logo = childNode(withName: "logo"), let button = childNode(withName: "button") else { return }
-        logo.position = CGPoint(x: frame.midX, y: frame.midY)
-        button.position = CGPoint(x: frame.width - 50, y: 50)
+        resetLogoPosition()
     }
-    
 }

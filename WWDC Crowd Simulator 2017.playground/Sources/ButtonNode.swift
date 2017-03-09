@@ -2,6 +2,8 @@ import SpriteKit
 
 public class ButtonNode: SKSpriteNode {
     
+    weak var delegate: ButtonNodeDelegate?
+    
     init() {
         let texture = SKTexture(imageNamed: "Button")
         let color = SKColor.red
@@ -48,6 +50,7 @@ public class ButtonNode: SKSpriteNode {
         let location = touches.first!.location(in: self)
         if location.isInside(node: self) {
             // Touch Up Inside
+            delegate?.didTapReset(sender: self)
         }
     }
     
@@ -68,4 +71,10 @@ extension CGPoint {
         if self.x > -node.size.width/2, self.x < node.size.width/2, self.y > -node.size.height/2, self.y < node.size.height/2 { return true }
         return false
     }
+}
+
+// MARK: ButtonNodeDelegate
+
+protocol ButtonNodeDelegate: class {
+    func didTapReset(sender: ButtonNode)
 }
