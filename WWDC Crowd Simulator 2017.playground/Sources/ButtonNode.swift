@@ -51,7 +51,16 @@ public class ButtonNode: SKSpriteNode {
         }
     }
     
+    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        let alphaAction = SKAction.fadeAlpha(to: 1.0, duration: 0.10)
+        alphaAction.timingMode = .easeInEaseOut
+        run(alphaAction)
+    }
+    
 }
+
+// MARK: CGPoint Extension for Hit Testing
 
 extension CGPoint {
     
