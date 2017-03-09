@@ -2,7 +2,11 @@ import SpriteKit
 
 public class ButtonNode: SKSpriteNode {
     
+    // MARK: Properties
+    
     weak var delegate: ButtonNodeDelegate?
+    
+    // MARK: Lifecycle
     
     init() {
         let texture = SKTexture(imageNamed: "Button")
@@ -35,17 +39,13 @@ public class ButtonNode: SKSpriteNode {
             run(alphaAction)
         }
         else {
-            let alphaAction = SKAction.fadeAlpha(to: 1.0, duration: 0.10)
-            alphaAction.timingMode = .easeInEaseOut
-            run(alphaAction)
+            performButtonAppearanceResetAnimation()
         }
     }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        let alphaAction = SKAction.fadeAlpha(to: 1.0, duration: 0.10)
-        alphaAction.timingMode = .easeInEaseOut
-        run(alphaAction)
+        performButtonAppearanceResetAnimation()
         
         let location = touches.first!.location(in: self)
         if location.isInside(node: self) {
@@ -56,6 +56,12 @@ public class ButtonNode: SKSpriteNode {
     
     public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
+        performButtonAppearanceResetAnimation()
+    }
+    
+    // MARK: Helper Functions
+    
+    func performButtonAppearanceResetAnimation() {
         let alphaAction = SKAction.fadeAlpha(to: 1.0, duration: 0.10)
         alphaAction.timingMode = .easeInEaseOut
         run(alphaAction)
