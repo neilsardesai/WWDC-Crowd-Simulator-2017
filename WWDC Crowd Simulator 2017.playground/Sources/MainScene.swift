@@ -57,6 +57,8 @@ public class MainScene: SKScene {
         button.position = CGPoint(x: frame.width - 50, y: 50)
     }
     
+    // MARK: Helper Functions
+    
     func resetLogoPosition() {
         guard let logo = childNode(withName: "logo") else { return }
         logo.position = CGPoint(x: frame.midX, y: frame.midY)
@@ -64,18 +66,18 @@ public class MainScene: SKScene {
         logo.run(rotationAction)
     }
     
-    // MARK: Touch Handling
-    
-    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        let location = touches.first!.location(in: self)
-        createRandomPerson(at: location)
+    func hideButton() {
+        guard let button = childNode(withName: "button") else { return }
+        let fadeOutAction = SKAction.fadeOut(withDuration: 0.25)
+        fadeOutAction.timingMode = .easeInEaseOut
+        button.run(fadeOutAction)
     }
     
-    override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-        let location = touches.first!.location(in: self)
-        createRandomPerson(at: location)
+    func showButton() {
+        guard let button = childNode(withName: "button") else { return }
+        let fadeInAction = SKAction.fadeIn(withDuration: 0.25)
+        fadeInAction.timingMode = .easeInEaseOut
+        button.run(fadeInAction)
     }
     
     func createRandomPerson(at point: CGPoint) {
@@ -91,6 +93,31 @@ public class MainScene: SKScene {
         person.physicsBody = SKPhysicsBody(circleOfRadius: maxRadius*interPersonSeparationConstant)
         
         addChild(person)
+    }
+    
+    // MARK: Touch Handling
+    
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        let location = touches.first!.location(in: self)
+        createRandomPerson(at: location)
+        hideButton()
+    }
+    
+    override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        let location = touches.first!.location(in: self)
+        createRandomPerson(at: location)
+    }
+    
+    override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        showButton()
+    }
+    
+    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        showButton()
     }
     
 }
