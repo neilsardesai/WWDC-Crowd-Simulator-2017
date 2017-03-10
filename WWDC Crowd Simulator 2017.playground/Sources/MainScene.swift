@@ -19,6 +19,7 @@ public class MainScene: SKScene {
         backgroundColor = SKColor(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
         scaleMode = .resizeFill
         physicsWorld.gravity = CGVector.zero
+        view?.isMultipleTouchEnabled = true
         
         let logo = SKSpriteNode(imageNamed: "Logo")
         logo.name = "logo"
@@ -99,15 +100,19 @@ public class MainScene: SKScene {
     
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        let location = touches.first!.location(in: self)
-        createRandomPerson(at: location)
+        for touch in touches {
+            let location = touch.location(in: self)
+            createRandomPerson(at: location)
+        }
         hideButton()
     }
     
     override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
-        let location = touches.first!.location(in: self)
-        createRandomPerson(at: location)
+        for touch in touches {
+            let location = touch.location(in: self)
+            createRandomPerson(at: location)
+        }
     }
     
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
