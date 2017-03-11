@@ -6,6 +6,9 @@ public class MainScene: SKScene {
     // MARK: Properties
     
     var personTextures = [SKTexture]()
+    let logoNodeName = "logo"
+    let personNodeName = "person"
+    let buttonNodeName = "button"
     
     // MARK: Lifecycle
     
@@ -22,14 +25,15 @@ public class MainScene: SKScene {
         view?.isMultipleTouchEnabled = true
         
         let logo = SKSpriteNode(imageNamed: "Logo")
-        logo.name = "logo"
+        logo.name = logoNodeName
         logo.setScale(0.375)
         logo.position = CGPoint(x: frame.midX, y: frame.midY)
-        logo.physicsBody = SKPhysicsBody(rectangleOf: logo.size)
+        logo.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: logo.size.width * 1.25, height: logo.size.height * 2.5))
+        logo.physicsBody?.isDynamic = false
         addChild(logo)
         
         let button = ButtonNode()
-        button.name = "button"
+        button.name = buttonNodeName
         button.position = CGPoint(x: frame.width - 50, y: 50)
         button.delegate = self
         addChild(button)
@@ -44,7 +48,7 @@ public class MainScene: SKScene {
         super.didSimulatePhysics()
         
         // Remove nodes if they're outside the view
-        enumerateChildNodes(withName: "person") { (node, stop) in
+        enumerateChildNodes(withName: personNodeName) { (node, stop) in
             if node.position.y < -50 || node.position.y > self.frame.size.height + 50 || node.position.x < -50 || node.position.x > self.frame.size.width + 50 {
                 node.removeFromParent()
             }
@@ -54,28 +58,28 @@ public class MainScene: SKScene {
     public override func didChangeSize(_ oldSize: CGSize) {
         // It's like Auto Layout without Auto Layout
         resetLogoPosition()
-        guard let button = childNode(withName: "button") else { return }
+        guard let button = childNode(withName: buttonNodeName) else { return }
         button.position = CGPoint(x: frame.width - 50, y: 50)
     }
     
     // MARK: Helper Functions
     
     func resetLogoPosition() {
-        guard let logo = childNode(withName: "logo") else { return }
+        guard let logo = childNode(withName: logoNodeName) else { return }
         logo.position = CGPoint(x: frame.midX, y: frame.midY)
         let rotationAction = SKAction.rotate(toAngle: 0, duration: 0)
         logo.run(rotationAction)
     }
     
     func hideButton() {
-        guard let button = childNode(withName: "button") else { return }
+        guard let button = childNode(withName: buttonNodeName) else { return }
         let fadeOutAction = SKAction.fadeOut(withDuration: 0.25)
         fadeOutAction.timingMode = .easeInEaseOut
         button.run(fadeOutAction)
     }
     
     func showButton() {
-        guard let button = childNode(withName: "button") else { return }
+        guard let button = childNode(withName: buttonNodeName) else { return }
         let fadeInAction = SKAction.fadeIn(withDuration: 0.25)
         fadeInAction.timingMode = .easeInEaseOut
         button.run(fadeInAction)
@@ -85,7 +89,7 @@ public class MainScene: SKScene {
         let randomTextureIndex = GKRandomSource.sharedRandom().nextInt(upperBound: personTextures.count)
         
         let person = SKSpriteNode(texture: personTextures[randomTextureIndex])
-        person.name = "person"
+        person.name = personNodeName
         person.setScale(0.375)
         person.position = CGPoint(x: point.x, y: point.y)
         
@@ -133,7 +137,7 @@ extension MainScene: ButtonNodeDelegate {
     
     func didTapReset(sender: ButtonNode) {
         // Remove all person nodes
-        enumerateChildNodes(withName: "person") { (node, stop) in
+        enumerateChildNodes(withName: personNodeName) { (node, stop) in
             node.removeFromParent()
         }
         
