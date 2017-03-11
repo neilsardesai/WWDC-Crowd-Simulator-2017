@@ -67,8 +67,6 @@ public class MainScene: SKScene {
     func resetLogoPosition() {
         guard let logo = childNode(withName: logoNodeName) else { return }
         logo.position = CGPoint(x: frame.midX, y: frame.midY)
-        let rotationAction = SKAction.rotate(toAngle: 0, duration: 0)
-        logo.run(rotationAction)
     }
     
     func hideButton() {
