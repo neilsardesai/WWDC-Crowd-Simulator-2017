@@ -1,10 +1,10 @@
 import SpriteKit
 
-public class ButtonNode: SKSpriteNode {
+public class ResetButtonNode: SKSpriteNode {
     
     // MARK: Properties
     
-    weak var delegate: ButtonNodeDelegate?
+    weak var delegate: ResetButtonNodeDelegate?
     
     // MARK: Lifecycle
     
@@ -79,8 +79,8 @@ extension CGPoint {
     }
 }
 
-// MARK: ButtonNodeDelegate
+// MARK: ResetButtonNodeDelegate
 
-protocol ButtonNodeDelegate: class {
-    func didTapReset(sender: ButtonNode)
+protocol ResetButtonNodeDelegate: class {
+    func didTapReset(sender: ResetButtonNode)
 }

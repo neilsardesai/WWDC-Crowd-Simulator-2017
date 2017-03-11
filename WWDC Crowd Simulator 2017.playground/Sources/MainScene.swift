@@ -32,7 +32,7 @@ public class MainScene: SKScene {
         logo.physicsBody?.isDynamic = false
         addChild(logo)
         
-        let button = ButtonNode()
+        let button = ResetButtonNode()
         button.name = buttonNodeName
         button.position = CGPoint(x: frame.width - 50, y: 50)
         button.delegate = self
@@ -133,11 +133,11 @@ public class MainScene: SKScene {
     
 }
 
-// MARK: ButtonNodeDelegate
+// MARK: ResetButtonNodeDelegate
 
-extension MainScene: ButtonNodeDelegate {
+extension MainScene: ResetButtonNodeDelegate {
     
-    func didTapReset(sender: ButtonNode) {
+    func didTapReset(sender: ResetButtonNode) {
         // Remove all person nodes
         enumerateChildNodes(withName: personNodeName) { (node, stop) in
             let fadeOutAction = SKAction.fadeOut(withDuration: 0.25)
