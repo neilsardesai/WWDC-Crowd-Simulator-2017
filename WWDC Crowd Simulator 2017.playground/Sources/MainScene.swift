@@ -58,8 +58,7 @@ public class MainScene: SKScene {
     public override func didChangeSize(_ oldSize: CGSize) {
         // It's like Auto Layout without Auto Layout
         resetLogoPosition()
-        guard let button = childNode(withName: buttonNodeName) else { return }
-        button.position = CGPoint(x: frame.width - 50, y: 50)
+        resetButtonPosition()
     }
     
     // MARK: Helper Functions
@@ -67,6 +66,11 @@ public class MainScene: SKScene {
     func resetLogoPosition() {
         guard let logo = childNode(withName: logoNodeName) else { return }
         logo.position = CGPoint(x: frame.midX, y: frame.midY)
+    }
+    
+    func resetButtonPosition() {
+        guard let button = childNode(withName: buttonNodeName) else { return }
+        button.position = CGPoint(x: frame.width - 50, y: 50)
     }
     
     func hideButton() {
@@ -136,9 +140,11 @@ extension MainScene: ButtonNodeDelegate {
     func didTapReset(sender: ButtonNode) {
         // Remove all person nodes
         enumerateChildNodes(withName: personNodeName) { (node, stop) in
-            node.removeFromParent()
+            let fadeOutAction = SKAction.fadeOut(withDuration: 0.25)
+            fadeOutAction.timingMode = .easeInEaseOut
+            node.run(fadeOutAction, completion: {
+                node.removeFromParent()
+            })
         }
-        
-        resetLogoPosition()
     }
 }
