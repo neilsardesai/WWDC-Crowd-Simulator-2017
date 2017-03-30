@@ -56,7 +56,7 @@ public class MainScene: SKScene {
     }
     
     public override func didChangeSize(_ oldSize: CGSize) {
-        // It's like Auto Layout without Auto Layout
+        // It’s like Auto Layout without Auto Layout
         resetLogoPosition()
         resetButtonPosition()
     }
